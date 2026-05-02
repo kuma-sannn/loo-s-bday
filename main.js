@@ -41,12 +41,14 @@ const cakeCanvas = document.getElementById('cakeCanvas');
 const typewriterText = document.getElementById('typewriterText');
 const reasonsGrid = document.getElementById('reasonsGrid');
 const floatingElements = document.getElementById('floatingElements');
+const blowCandlesBtn = document.getElementById('blowCandlesBtn');
 
 // ---- State ----
 let musicPlaying = false;
 let audioContext = null;
 let musicGainNode = null;
 let birthdayMusicBufferSource = null;
+let candlesBlown = false;
 
 // ============================================
 // 🎁 PRELOADER / GIFT BOX
@@ -556,6 +558,27 @@ function init3DCake() {
   // Animate
   const clock = new THREE.Clock();
 
+  // Show button after a delay
+  setTimeout(() => {
+    if (blowCandlesBtn) blowCandlesBtn.classList.remove('hidden');
+  }, 4000);
+
+  if (blowCandlesBtn) {
+    blowCandlesBtn.addEventListener('click', () => {
+      candlesBlown = true;
+      blowCandlesBtn.classList.add('hidden');
+      document.querySelector('.cake-glow').style.opacity = '0.2';
+      
+      // Massive confetti
+      if (window._burstParticles) {
+        window._burstParticles(window.innerWidth / 2, window.innerHeight / 2, 250);
+      }
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => createDOMParticle(window.innerWidth / 2 + (Math.random()-0.5)*300, window.innerHeight / 2 + (Math.random()-0.5)*300), i * 30);
+      }
+    });
+  }
+
   function animateCake() {
     requestAnimationFrame(animateCake);
     const t = clock.getElapsedTime();
@@ -565,12 +588,18 @@ function init3DCake() {
 
     // Flame flicker
     candlePositions.forEach((c, i) => {
-      const flicker = Math.sin(t * 8 + i * 2) * 0.03 + Math.sin(t * 12 + i * 3) * 0.02;
-      c.flame.position.y = c.baseY + flicker;
-      c.flame.scale.x = 1 + Math.sin(t * 10 + i) * 0.2;
-      c.flame.scale.z = 1 + Math.cos(t * 10 + i) * 0.2;
-      c.glow.scale.setScalar(1 + Math.sin(t * 6 + i) * 0.3);
-      c.glow.material.opacity = 0.2 + Math.sin(t * 8 + i) * 0.1;
+      if (candlesBlown) {
+        c.flame.scale.lerp(new THREE.Vector3(0, 0, 0), 0.1);
+        c.glow.scale.lerp(new THREE.Vector3(0, 0, 0), 0.1);
+        c.glow.material.opacity = Math.max(0, c.glow.material.opacity - 0.05);
+      } else {
+        const flicker = Math.sin(t * 8 + i * 2) * 0.03 + Math.sin(t * 12 + i * 3) * 0.02;
+        c.flame.position.y = c.baseY + flicker;
+        c.flame.scale.x = 1 + Math.sin(t * 10 + i) * 0.2;
+        c.flame.scale.z = 1 + Math.cos(t * 10 + i) * 0.2;
+        c.glow.scale.setScalar(1 + Math.sin(t * 6 + i) * 0.3);
+        c.glow.material.opacity = 0.2 + Math.sin(t * 8 + i) * 0.1;
+      }
     });
 
     // Star rotation
@@ -661,13 +690,13 @@ function initMouseSparkles() {
 
 function createSparkle(x, y) {
   const sparkle = document.createElement('div');
-  sparkle.className = 'sparkle';
+  sparkle.className = 'magic-dust';
   sparkle.style.left = x + 'px';
   sparkle.style.top  = y + 'px';
-  sparkle.style.setProperty('--tx', (Math.random()-0.5)*80+'px');
-  sparkle.style.setProperty('--ty', -(Math.random()*50+10)+'px');
+  sparkle.style.setProperty('--tx', (Math.random()-0.5)*120+'px');
+  sparkle.style.setProperty('--ty', -(Math.random()*80+20)+'px');
   sparkle.style.background = ['#ff69b4','#fbbf24','#c084fc','#67e8f9','#ff6ba8','#818cf8'][Math.floor(Math.random()*6)];
-  const sz = 4 + Math.random()*6;
+  const sz = 4 + Math.random()*8;
   sparkle.style.width  = sz+'px';
   sparkle.style.height = sz+'px';
   document.body.appendChild(sparkle);
