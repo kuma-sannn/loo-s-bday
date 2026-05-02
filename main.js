@@ -7,7 +7,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
    ============================================ */
 
 // ---- Constants ----
-const BIRTHDAY_MESSAGE = `On this beautiful day, 17 years ago, the world became a brighter place because you were born! 🌟\n\nYou bring so much joy, laughter, and love into everyone's life. Your kindness, your smile, and your amazing spirit make every day better.\n\nHere's to an incredible year of new adventures, big dreams, and endless happiness. You deserve all the wonderful things this world has to offer! 🎀\n\nHappy 17th Birthday, superstar! 🥳💖`;
+const BIRTHDAY_MESSAGE = `On this beautiful day, 17 years ago, the world became a brighter place because you were born! 🌟\n\nYou bring so much joy, laughter, and love into everyone's life. Your kindness, your smile, and your amazing spirit make every day better.\n\nHere's to an incredible year of new adventures, big dreams, and endless happiness. You deserve all the wonderful things this world has to offer! 🎀\n\nHappy 17th Birthday, loo! 🥳💖`;
 
 const REASONS = [
   { emoji: '💖', text: 'Your smile lights up every room' },
