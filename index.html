@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy 17th Birthday! 🎂✨</title>
+  <meta name="description" content="A special birthday celebration for a wonderful person turning 17!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Outfit:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- Preloader / Entrance -->
+  <div id="preloader">
+    <div class="preloader-content">
+      <div class="gift-box" id="giftBox">
+        <div class="gift-lid">
+          <div class="gift-bow"></div>
+        </div>
+        <div class="gift-base"></div>
+      </div>
+      <p class="tap-text">✨ Tap the gift to open ✨</p>
+    </div>
+  </div>
+
+  <!-- Main Birthday Page -->
+  <div id="birthdayPage" class="hidden">
+    <!-- Floating elements container -->
+    <div id="floatingElements"></div>
+    
+    <!-- Confetti canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Header -->
+    <header id="header">
+      <div class="sparkle-text">
+        <h1 class="birthday-title">Happy 17th Birthday!</h1>
+      </div>
+      <p class="birthday-subtitle">To the most amazing girl in the world 💖</p>
+    </header>
+
+    <!-- 3D Cake Section -->
+    <section id="cakeSection">
+      <canvas id="cakeCanvas"></canvas>
+      <div class="cake-glow"></div>
+    </section>
+
+    <!-- Birthday Message -->
+    <section id="messageSection">
+      <div class="message-card">
+        <div class="card-decoration top-left">✿</div>
+        <div class="card-decoration top-right">✿</div>
+        <div class="card-decoration bottom-left">✿</div>
+        <div class="card-decoration bottom-right">✿</div>
+        <h2 class="message-title">A Special Wish For You 🌸</h2>
+        <p class="message-text" id="typewriterText"></p>
+        <div class="signature">— With love 💕</div>
+      </div>
+    </section>
+
+    <!-- Fun Facts Section -->
+    <section id="funSection">
+      <h2 class="section-title">17 Reasons You're Amazing ✨</h2>
+      <div class="reasons-grid" id="reasonsGrid">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- Wishes Section -->
+    <section id="wishesSection">
+      <div class="wishes-container">
+        <div class="wish-balloon" style="--delay: 0s; --color: #ff6b9d;">
+          <span>🎈 May all your dreams come true!</span>
+        </div>
+        <div class="wish-balloon" style="--delay: 0.3s; --color: #c084fc;">
+          <span>🌟 Shine brighter than the stars!</span>
+        </div>
+        <div class="wish-balloon" style="--delay: 0.6s; --color: #67e8f9;">
+          <span>🦋 Spread your wings and fly!</span>
+        </div>
+        <div class="wish-balloon" style="--delay: 0.9s; --color: #fbbf24;">
+          <span>🌻 Keep blooming beautifully!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-hearts">💖💜💖💜💖</div>
+      <p class="footer-text">Made with love, just for you 🎀</p>
+      <p class="footer-year">Happy Birthday 2026 🎂</p>
+    </footer>
+
+    <!-- Music Toggle -->
+    <button id="musicToggle" class="music-btn" title="Toggle Music">
+      <span class="music-icon">🎵</span>
+      <span class="music-label">Music</span>
+    </button>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
