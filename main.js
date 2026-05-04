@@ -564,17 +564,61 @@ function init3DCake() {
   }, 4000);
 
   if (blowCandlesBtn) {
-    blowCandlesBtn.addEventListener('click', () => {
-      candlesBlown = true;
-      blowCandlesBtn.classList.add('hidden');
-      document.querySelector('.cake-glow').style.opacity = '0.2';
-      
-      // Massive confetti
-      if (window._burstParticles) {
-        window._burstParticles(window.innerWidth / 2, window.innerHeight / 2, 250);
-      }
-      for (let i = 0; i < 30; i++) {
-        setTimeout(() => createDOMParticle(window.innerWidth / 2 + (Math.random()-0.5)*300, window.innerHeight / 2 + (Math.random()-0.5)*300), i * 30);
+    blowCandlesBtn.addEventListener('click', async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioCtx.createAnalyser();
+        const microphone = audioCtx.createMediaStreamSource(stream);
+        microphone.connect(analyser);
+        
+        analyser.fftSize = 256;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+        
+        blowCandlesBtn.textContent = 'Keep blowing... 🌬️';
+        blowCandlesBtn.style.animation = 'pulseButton 0.5s infinite';
+        
+        function checkBlow() {
+          if (candlesBlown) return;
+          analyser.getByteFrequencyData(dataArray);
+          
+          let sum = 0;
+          for(let i = 0; i < 20; i++) {
+            sum += dataArray[i];
+          }
+          let average = sum / 20;
+          
+          if (average > 150) { // Threshold for blow detection
+            candlesBlown = true;
+            blowCandlesBtn.classList.add('hidden');
+            document.querySelector('.cake-glow').style.opacity = '0.2';
+            stream.getTracks().forEach(track => track.stop());
+            
+            if (window._burstParticles) {
+              window._burstParticles(window.innerWidth / 2, window.innerHeight / 2, 250);
+            }
+            for (let i = 0; i < 30; i++) {
+              setTimeout(() => createDOMParticle(window.innerWidth / 2 + (Math.random()-0.5)*300, window.innerHeight / 2 + (Math.random()-0.5)*300), i * 30);
+            }
+          } else {
+            requestAnimationFrame(checkBlow);
+          }
+        }
+        
+        checkBlow();
+      } catch (err) {
+        // Fallback if no mic
+        candlesBlown = true;
+        blowCandlesBtn.classList.add('hidden');
+        document.querySelector('.cake-glow').style.opacity = '0.2';
+        
+        if (window._burstParticles) {
+          window._burstParticles(window.innerWidth / 2, window.innerHeight / 2, 250);
+        }
+        for (let i = 0; i < 30; i++) {
+          setTimeout(() => createDOMParticle(window.innerWidth / 2 + (Math.random()-0.5)*300, window.innerHeight / 2 + (Math.random()-0.5)*300), i * 30);
+        }
       }
     });
   }
